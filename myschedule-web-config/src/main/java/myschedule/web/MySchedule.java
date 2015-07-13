@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.*;
+import java.util.Map.Entry;
 
 /**
  * This is the central manager of the MySchedule application. There is only one instance of MySchedule application, 
@@ -318,6 +319,27 @@ public class MySchedule extends AbstractService {
 	
 	public List<String> getSchedulerSettingsNames() {
 		return new ArrayList<String>(schedulerSettingsMap.keySet());
+	}
+	
+	/**
+	 * Get the settings names and full names of all schedulers defined in myschedule.
+	 * @return Map of <settings name, full name>
+	 */
+	public Map<String, String> getSchedulerNames(){
+		Map<String, String> schedulerNames = new HashMap<String, String>();
+		for(Entry<String, SchedulerSettings> entry: schedulerSettingsMap.entrySet()){
+			SchedulerSettings settings = entry.getValue();
+			schedulerNames.put(entry.getKey(), settings.getSchedulerFullName());
+		}
+		return schedulerNames;
+	}
+
+	/**
+	 * Get the settings names and corresponding schedulers of all schedulers defined in myschedule.
+	 * @return Map of <settings name, scheduler>
+	 */
+	public Map<String, SchedulerTemplate> getSchedulers(){
+		return schedulersMap;
 	}
 	
 	public SchedulerSettings getSchedulerSettings(String settingsName) {
